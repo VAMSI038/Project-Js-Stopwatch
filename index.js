@@ -1,56 +1,43 @@
-let time = document.getElementById("timer");
-let startBtn = document.getElementById("startBtn");
-let pauseBtn = document.getElementById("pauseBtn");
-let resetBtn = document.getElementById("resetBtn");
+let player = document.getElementById("playerLabel");
+let computer = document.getElementById("computerLabel");
+let result = document.getElementById("resultLabel");
+let buttonChoice = document.querySelectorAll(".choiceBtns");
 
+buttonChoice.forEach(button => button.addEventListener("click", () => {
+    playerChoice = button.textContent;
+    player.innerHTML = `Player Choice: ${playerChoice}`;
+    computerContent();
+    resultDeclare();
+}));
 
-let startTime = 0;
-let elapsedTime = 0;
-let hrs = 0;
-let mins = 0;
-let secs = 0;
-let intervalId = 0;
-let pause = true;
+function computerContent() {
+    let randNum = Math.floor(Math.random() * 3) + 1;
 
-startBtn.addEventListener("click", () => {
-    if (pause) {
-        pause = false;
-        startTime = Date.now() - elapsedTime - elapsedTime;
-        intervalId = setInterval(updateTime, 75);
+    switch (randNum) {
+        case 1: computerChoice = "Rock";
+            break;
+        case 2: computerChoice = "Paper";
+            break;
+        case 3: computerChoice = "Scissor";
+            break;
     }
-});
-pauseBtn.addEventListener("click", () => {
-    if (!pause) {
-        pause = true;
-        elapsedTime = Date.now() - startTime;
-        clearInterval(intervalId);
-    }
-});
-resetBtn.addEventListener("click", () => {
-    pause = true;
-    startTime = 0;
-    elapsedTime = 0;
-    hrs = 0;
-    mins = 0;
-    secs = 0;
-    intervalId = 0;
-    clearInterval(intervalId);
-    time.textContent = `00:00:00`;
-});
-
-function updateTime() {
-    elapsedTime = Date.now() - startTime;
-
-    secs = Math.floor((elapsedTime / 1000) % 60);
-    mins = Math.floor((elapsedTime / (1000 * 60)) % 60);
-    hrs = Math.floor((elapsedTime / (1000 * 60 * 60)) % 60);
-
-    secs = pad(secs);
-    mins = pad(mins);
-    hrs = pad(hrs);
-
-    function pad(unit) {
-        return ("0" + unit).length > 2 ? unit : "0" + unit;
-    }
-    time.textContent = `${hrs}:${mins}:${secs}`;
+    computer.innerHTML = `Computer Choice: ${computerChoice}`;
 }
+
+function resultDeclare() {
+
+    if (playerChoice == computerChoice) {
+        resultValue = "Draw";
+    }
+    else if (playerChoice == "Rock") {
+        (computerChoice == "Paper") ? resultValue = "You Loose!" : resultValue = "You Win!";
+    }
+    else if (playerChoice == "Paper") {
+        (computerChoice == "Scissor") ? resultValue = "You Loose!" : resultValue = "You Win!";
+    }
+    else if (playerChoice == "Scissor") {
+        (computerChoice == "Rock") ? resultValue = "You Loose!" : resultValue = "You Win!";
+    }
+    result.innerHTML = `Result: ${resultValue}`;
+}
+
